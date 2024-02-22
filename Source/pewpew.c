@@ -6,7 +6,8 @@
 #include "draw.h"
 #include "enemy.h"
 #include "initialise.h"
-#include "inputs.h"
+#include "menuinputs.h"
+#include "playerinput.h"
 #include "sounds.h"
 #include "structs.h"
 #include <stdlib.h>
@@ -19,7 +20,8 @@ Entity enemy;
 
 Mix_Chunk *sounds[NUM_SOUNDS];
 
-int main(void) {
+int main(void)
+{
   memset(&app, 0, sizeof(App));
   memset(&player, 0, sizeof(Entity));
   memset(&bullet, 0, sizeof(Entity));
@@ -33,6 +35,10 @@ int main(void) {
 
   // Load the background texture
   app.background = loadTexture("Assets/space.jpeg");
+
+  // Load the font
+  app.font = loadFont("Assets/white-rabbit.ttf", 24);
+  app.menutext = renderText(MENU_TEXT, app.font, (SDL_Color){255, 255, 255, 255});
 
   // Set the start parameter to 0
   app.start = 0;
@@ -54,9 +60,21 @@ int main(void) {
   atexit(cleanup);
 
   // Main game loop
-  while (1) {
+  while (1) 
+  {
     prepareScene();
-    getInput();
+
+    if (app.start == 0) 
+    {
+
+      drawText(app.menutext, (SCREEN_WIDTH / 2) - (MENU_TXT_WIDTH / 2), SCREEN_HEIGHT / 2, MENU_TXT_WIDTH, MENU_TXT_HEIGHT);
+
+      getMenuInput();
+      presentScene();
+      continue;
+    }
+
+    getGameInput();
 
     draw(player.texture, player.x, player.y, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
 

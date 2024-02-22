@@ -11,3 +11,6 @@
 #define ENEMY_HEIGHT 128
 #define NUM_SOUNDS 2
 #define MAX_SND_CHANNELS 8
+#define MENU_TEXT "Press Space to start"
+#define MENU_TXT_WIDTH 500
+#define MENU_TXT_HEIGHT 50

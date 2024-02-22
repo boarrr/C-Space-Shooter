@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include "defs.h"
 #pragma once
 
@@ -8,6 +9,8 @@ typedef struct
   SDL_Renderer *renderer;
   SDL_Window *window;
   SDL_Texture *background;
+  TTF_Font *font;
+  SDL_Texture *menutext;
   int start;
   int left;
   int right;

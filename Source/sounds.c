@@ -14,6 +14,9 @@ void initSound()
 static void loadSounds()
 {
   sounds[0] = Mix_LoadWAV("Assets/blaster.wav");
+  Mix_VolumeChunk(sounds[0], MIX_MAX_VOLUME / 4);
+
+  sounds[1] = Mix_LoadWAV("Assets/explosion.wav");
 }
 
 void playSound(int sound, int channel)
