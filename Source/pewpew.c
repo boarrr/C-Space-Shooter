@@ -27,37 +27,46 @@ int main(void)
   memset(&bullet, 0, sizeof(Entity));
   memset(&enemy, 0, sizeof(Entity));
 
+  char scoreStr[10];
+
   // Initialise the window
   initWindow();
 
   // Initialise the sound
   initSound();
 
-  // Load the background texture
+  // Load the game textures
   app.background = loadTexture("Assets/space.jpeg");
+  player.texture = loadTexture("Assets/player.png");
+  player.death = loadTexture("Assets/explosion.png");
+  bullet.texture = loadTexture("Assets/bullet.png");
+  enemy.texture = loadTexture("Assets/meteor.png");
+  enemy.death = loadTexture("Assets/explosion.png");
 
-  // Load the font
+  // Load the font and create the surface for the menu text
   app.font = loadFont("Assets/white-rabbit.ttf", 24);
   app.menutext = renderText(MENU_TEXT, app.font, (SDL_Color){255, 255, 255, 255});
+  app.scoreText = renderText(SCORE_TEXT, app.font, (SDL_Color){255, 255, 255, 255});
 
-  // Set the start parameter to 0
-  app.start = 0;
-
-  // Load the player texture and set the player's position
-  player.x = (SCREEN_WIDTH / 2) - 100;
-  player.y = (SCREEN_HEIGHT)-150;
-  player.health = 1;
-  player.texture = loadTexture("Assets/player.png");
-
-  // Load the bullet texture
-  bullet.texture = loadTexture("Assets/bullet.png");
-
-  // Load the enemy texture
-  enemy.texture = loadTexture("Assets/meteor.png");
-  enemy.health = 0;
-
+  
   // Clean up when the program exits
   atexit(cleanup);
+
+
+  restart: 
+    // Set the start parameters
+    app.start = 0;
+    player.x = (SCREEN_WIDTH / 2) - 100;
+    player.y = (SCREEN_HEIGHT)-150;
+    player.health = 1;
+    player.score = 0;
+    player.scoreDigits = 1;
+    enemy.health = 0;
+
+    // Create the surface for the score text
+    sprintf(scoreStr, "%d", player.score);
+    player.curScore = renderText(scoreStr, app.font, (SDL_Color){255, 255, 255, 255});
+
 
   // Main game loop
   while (1) 
@@ -76,15 +85,25 @@ int main(void)
 
     getGameInput();
 
+    // Draw the score text
+    drawText(app.scoreText, 10, 10, SCORE_TXT_WIDTH, SCORE_TXT_HEIGHT);
+    drawText(player.curScore, 150, 10, (DIGIT_WIDTH * player.scoreDigits), SCORE_TXT_HEIGHT);
+
+    // Draw the player
     draw(player.texture, player.x, player.y, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
 
+    // If the bullet is alive, draw it
     if (bullet.health > 0) draw(bullet.texture, bullet.x, bullet.y, -90, BULLET_WIDTH, BULLET_HEIGHT);
 
+    // Spawn the enemy
     spawnEnemy();
 
+    // Draw the enemy if it is alive, otherwise draw the death texture
     if (enemy.health > 0) draw(enemy.texture, enemy.x, enemy.y, 0, ENEMY_WIDTH, ENEMY_HEIGHT);
+    else draw(enemy.death, enemy.x, enemy.y, 0, ENEMY_WIDTH, ENEMY_HEIGHT);
     
-    if (player.health == 0) break;
+    // If the player is dead, end the game
+    if (player.health == 0) goto restart;
 
     presentScene();
 

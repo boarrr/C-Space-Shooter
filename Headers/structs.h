@@ -11,6 +11,7 @@ typedef struct
   SDL_Texture *background;
   TTF_Font *font;
   SDL_Texture *menutext;
+  SDL_Texture *scoreText;
   int start;
   int left;
   int right;
@@ -24,7 +25,11 @@ typedef struct
   int dx;
   int dy;
   int health;
+  int score;
+  int scoreDigits;
+  SDL_Texture *curScore;
   SDL_Texture *texture;
+  SDL_Texture *death;
 } Entity;
 
 extern App app;

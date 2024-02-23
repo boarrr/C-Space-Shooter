@@ -14,3 +14,7 @@
 #define MENU_TEXT "Press Space to start"
 #define MENU_TXT_WIDTH 500
 #define MENU_TXT_HEIGHT 50
+#define SCORE_TEXT "Score: "
+#define SCORE_TXT_WIDTH 150
+#define SCORE_TXT_HEIGHT 25
+#define DIGIT_WIDTH 25

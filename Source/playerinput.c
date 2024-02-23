@@ -1,6 +1,6 @@
 #include "defs.h"
-#include "sounds.h"
 #include "structs.h"
+#include "sounds.h"
 #include <SDL.h>
 
 void doKeyDown(SDL_KeyboardEvent *);
@@ -66,19 +66,8 @@ void getGameInput(void)
   {
     bullet.y -= BULLET_SPEED;
 
+    // If the bullet goes off the screen, kill it
     if (bullet.y < 0) bullet.health = 0;
-    
-    // Check for a collision between the bullet and the enemy
-    if (bullet.x < enemy.x + ENEMY_WIDTH && bullet.x + BULLET_WIDTH > enemy.x) 
-    {
-      if (bullet.y < enemy.y + ENEMY_HEIGHT && bullet.y + BULLET_HEIGHT > enemy.y) 
-      {
-        bullet.health = 0;
-        enemy.health = 0;
-
-        playSound(1, 1);
-      }
-    }
   }
 }
 
