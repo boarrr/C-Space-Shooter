@@ -30,7 +30,7 @@ void spawnEnemy(void)
    // Check for a collision between the bullet and the enemy
   if (bullet.x < enemy.x + ENEMY_WIDTH && bullet.x + BULLET_WIDTH > enemy.x) 
   {
-    if (bullet.y < enemy.y + ENEMY_HEIGHT && bullet.y + BULLET_HEIGHT > enemy.y) 
+    if (bullet.y < enemy.y + (ENEMY_HEIGHT - MODEL_OFFSET) && bullet.y + (BULLET_HEIGHT - MODEL_OFFSET) > enemy.y) 
     {
       bullet.health = 0;
       enemy.health = 0;
@@ -53,7 +53,7 @@ void spawnEnemy(void)
   // Check for a collision between the player and the enemy
   if (player.x < enemy.x + ENEMY_WIDTH && player.x + PLAYER_WIDTH > enemy.x)
   {
-    if (player.y < enemy.y + ENEMY_HEIGHT && player.y + PLAYER_HEIGHT > enemy.y)
+    if (player.y < enemy.y + (ENEMY_HEIGHT - MODEL_OFFSET) && player.y + (PLAYER_HEIGHT - MODEL_OFFSET) > enemy.y)
     {
       player.health = 0;
     }

@@ -104,7 +104,7 @@ int main(void)
     
     // If the player is dead, end the game
     if (player.health == 0) goto restart;
-
+    
     presentScene();
 
     SDL_Delay(16); // 16 milliseconds is roughly 60 frames per second
