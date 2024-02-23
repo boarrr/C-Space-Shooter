@@ -47,6 +47,7 @@ int main(void)
   app.font = loadFont("Assets/white-rabbit.ttf", 24);
   app.menutext = renderText(MENU_TEXT, app.font, (SDL_Color){255, 255, 255, 255});
   app.scoreText = renderText(SCORE_TEXT, app.font, (SDL_Color){255, 255, 255, 255});
+  app.deathText = renderText(DEAD_TEXT, app.font, (SDL_Color){255, 255, 255, 255});
 
   
   // Clean up when the program exits
@@ -73,11 +74,18 @@ int main(void)
   {
     prepareScene();
 
+    if (app.death > 0)
+    {
+      drawText(app.deathText, (SCREEN_WIDTH / 2) - (MENU_TXT_WIDTH / 2), SCREEN_HEIGHT / 2, MENU_TXT_WIDTH, MENU_TXT_HEIGHT);
+      presentScene();
+      SDL_Delay(1500);
+      app.death = 0;
+      continue;
+    }
+
     if (app.start == 0) 
     {
-
       drawText(app.menutext, (SCREEN_WIDTH / 2) - (MENU_TXT_WIDTH / 2), SCREEN_HEIGHT / 2, MENU_TXT_WIDTH, MENU_TXT_HEIGHT);
-
       getMenuInput();
       presentScene();
       continue;
@@ -103,8 +111,12 @@ int main(void)
     else draw(enemy.death, enemy.x, enemy.y, 0, ENEMY_WIDTH, ENEMY_HEIGHT);
     
     // If the player is dead, end the game
-    if (player.health == 0) goto restart;
-    
+    if (player.health == 0) 
+    {
+      app.death = 1;
+      goto restart;
+    }
+
     presentScene();
 
     SDL_Delay(16); // 16 milliseconds is roughly 60 frames per second

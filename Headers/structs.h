@@ -12,7 +12,9 @@ typedef struct
   TTF_Font *font;
   SDL_Texture *menutext;
   SDL_Texture *scoreText;
+  SDL_Texture *deathText;
   int start;
+  int death;
   int left;
   int right;
   int shoot;

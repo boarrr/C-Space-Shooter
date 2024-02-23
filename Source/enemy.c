@@ -46,6 +46,10 @@ void spawnEnemy(void)
       player.curScore = renderText(scoreStr, app.font, (SDL_Color){255, 255, 255, 255});
 
       playSound(1, 1);
+
+      // Bug-fix, Move the bullet off screen after a collision
+      bullet.x = -100;
+      bullet.y = -100;
     }
   }
 
